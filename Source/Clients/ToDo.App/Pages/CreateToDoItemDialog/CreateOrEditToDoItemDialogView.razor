@@ -1,0 +1,32 @@
+﻿@inherits MvvmComponentBase<CreateOrEditToDoItemDialogViewModel>
+<MudDialog>
+    <TitleContent>
+        @if (IsCreate)
+        {
+            <MudText Typo="Typo.h6">Create ToDo</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">Edit ToDo</MudText>
+        }        
+    </TitleContent>
+    <DialogContent>
+        <MudForm>
+            <MudTextField @bind-Value="@BindingContext.Text" For="@(() => BindingContext.Text)" Label="Text" Immediate="true" Validation="@BindingContext.Validator.Validation"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Error" OnClick="@BindingContext.Cancel">Cancel</MudButton>
+        <MudSpacer/>
+        <MudButton Color="Color.Primary" OnClick="@BindingContext.CreateToDoItem">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code{
+
+    [CascadingParameter]
+    public MudDialogInstance DialogInstance { get; set; } = null!;
+
+    [Parameter]
+    public bool IsCreate { get; set; }
+}
