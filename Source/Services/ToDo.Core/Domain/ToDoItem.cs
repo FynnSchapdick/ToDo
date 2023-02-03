@@ -14,10 +14,9 @@ public sealed class ToDoItem
         Text = text;
         Completed = completed;
     }
-    
     public void UpdateText(string text)
     {
-        if (text.Length is < 5 or > 255)
+        if (TextNotValid(text))
         {
             throw new ToDoItemException(nameof(UpdateText), text);
         }
@@ -28,18 +27,14 @@ public sealed class ToDoItem
     {
         Completed = !Completed;
     }
-    
     private static bool TextNotValid(string text)
         => text.Length is < 5 or > 255;
-
     private static bool GuidNotValid(Guid id)
         => id == Guid.Empty;
-    
     public static ToDoItem Create(string text)
         => TextNotValid(text)
             ? throw new ToDoItemException(nameof(Create), text)
             : Init(Guid.NewGuid(), text);
-
     public static ToDoItem Init(Guid id, string text, bool completed = false)
     {
         if (GuidNotValid(id))

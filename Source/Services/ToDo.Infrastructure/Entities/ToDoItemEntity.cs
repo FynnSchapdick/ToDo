@@ -1,5 +1,4 @@
 ﻿using ToDo.Core.Domain;
-using ToDo.Framework.ToDoClient.Contracts;
 
 namespace ToDo.Infrastructure.Entities;
 
@@ -24,7 +23,4 @@ public sealed class ToDoItemEntity
 
     public static ToDoItemEntity Init(ToDoItem model)
         => new(model.Id, model.Text, model.Completed);
-
-    // public static ToDoItemDto AsDto(ToDoItemEntity entity)
-    //     => new(entity.Id, entity.Text, entity.Completed);
 }
