@@ -16,7 +16,7 @@ public interface IToDoClient
     
     [Delete(ToDoClientConstants.DeleteTodo)]
     Task<IApiResponse> DeleteToDoItem(Guid toDoItemId);
-    
+
     [Put(ToDoClientConstants.PutTodo)]
-    Task<IApiResponse> UpdateToDoItem(Guid toDoItemId, [Body] UpdateToDoItemRequestBody body);
+    Task<IApiResponse> UpdateToDoItem(UpdateToDoItemRequest request);
 }

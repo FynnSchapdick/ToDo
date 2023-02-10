@@ -5,6 +5,8 @@ using MudBlazor.Services;
 using Refit;
 using ToDo.App;
 using ToDo.App.Pages.CreateToDoItemDialog;
+using ToDo.App.Pages.DeleteToDoItemDialog;
+using ToDo.App.Pages.EditToDoItemDialog;
 using ToDo.App.Pages.ToDoItems;
 using ToDo.App.Services;
 using ToDo.App.Services.Abstractions;
@@ -26,6 +28,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateToDoItemRequestValida
 builder.Services.AddRefitClient<IToDoClient>(_ => new RefitSettings())
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(apiBaseUrl));
 builder.Services.AddTransient<ToDoItemsViewModel>();
-builder.Services.AddTransient<CreateOrEditToDoItemDialogViewModel>();
+builder.Services.AddTransient<CreateToDoItemDialogViewModel>();
+builder.Services.AddTransient<DeleteToDoItemDialogViewModel>();
+builder.Services.AddTransient<EditToDoItemDialogViewModel>();
 
 await builder.Build().RunAsync();

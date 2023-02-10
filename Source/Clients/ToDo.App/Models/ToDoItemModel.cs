@@ -3,7 +3,7 @@
 public sealed class ToDoItemModel
 {
     public Guid Id { get; }
-    public string Text { get; }
+    public string Text { get; set; }
     public bool Completed { get; set; }
 
     public ToDoItemModel(Guid id, string text, bool completed)

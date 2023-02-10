@@ -10,6 +10,9 @@ public sealed class UpdateToDoItemRequestValidator : AbstractValidator<UpdateToD
         RuleFor(request => request.ToDoItemId)
             .NotNull()
             .NotEmpty();
+
+        RuleFor(request => request.Body)
+            .NotNull();
         
         RuleFor(request => request.Body.Text)
             .NotNull()

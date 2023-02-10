@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using ToDo.Framework.ToDoClient.Contracts;
 using ToDo.Infrastructure.Entities;
 
 namespace ToDo.Api.IntegrationTests.EndpointTests;
@@ -21,7 +22,7 @@ public sealed class UpdateToDoItemEndpointTests : IClassFixture<ToDoApiFactory>
     public async Task Update_ReturnsOK_WhenRequestIsValid()
     {
         await _apiFactory.InsertToDoItemForEndpointTesting(_toDoItem);
-        IApiResponse response = await _client.UpdateToDoItem(_toDoItem.Id, new("I was second Text."));
+        IApiResponse response = await _client.UpdateToDoItem(new (_toDoItem.Id, new UpdateToDoItemRequestBody("I was second Text.")));
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -29,7 +30,7 @@ public sealed class UpdateToDoItemEndpointTests : IClassFixture<ToDoApiFactory>
     [Fact]
     public async Task Update_ReturnsBadRequest_WhenRequestIsNotValid()
     {
-        IApiResponse response = await _client.UpdateToDoItem(Guid.Empty, new("I was second Text."));
+        IApiResponse response = await _client.UpdateToDoItem(new UpdateToDoItemRequest(Guid.Empty, new UpdateToDoItemRequestBody("I was second Text.")));
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
@@ -37,7 +38,7 @@ public sealed class UpdateToDoItemEndpointTests : IClassFixture<ToDoApiFactory>
     [Fact]
     public async Task Update_ReturnsNotFound_WhenEntityNotExists()
     {
-        IApiResponse response = await _client.UpdateToDoItem(Guid.NewGuid(), new("I was second Text."));
+        IApiResponse response = await _client.UpdateToDoItem(new UpdateToDoItemRequest(Guid.NewGuid(), new UpdateToDoItemRequestBody("I was second Text.")));
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }

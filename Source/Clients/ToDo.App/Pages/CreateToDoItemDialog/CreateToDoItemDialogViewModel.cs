@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MvvmBlazor.ViewModel;
@@ -8,26 +7,23 @@ using ToDo.App.Validators;
 
 namespace ToDo.App.Pages.CreateToDoItemDialog;
 
-public sealed class CreateOrEditToDoItemDialogViewModel : ViewModelBase
+public sealed class CreateToDoItemDialogViewModel : ViewModelBase
 {
-    private const string INVALID_LENGTH_MESSAGE = "Text must be at least 5 and maximum 255 characters long";
-    private const string EMPTY_MESSAGE = "Text must not be empty";
+    private const string InvalidLengthMessage = "Text must be at least 5 and maximum 255 characters long";
+    private const string EmptyMessage = "Text must not be empty";
 
     private readonly IToDoService _toDoService;
     private readonly FluentValueValidator<string> _validator = new(x => x
         .NotNull()
         .NotEmpty()
-        .WithMessage(EMPTY_MESSAGE)
+        .WithMessage(EmptyMessage)
         .Length(5, 255)
-        .WithMessage(INVALID_LENGTH_MESSAGE));
+        .WithMessage(InvalidLengthMessage));
 
     public FluentValueValidator<string> Validator => _validator;
 
     [CascadingParameter]
     public MudDialogInstance DialogInstance { get; set; } = null!;
-
-    [Parameter]
-    public bool IsCreate { get; set; }
 
     private string _text = string.Empty;
     public string Text
@@ -36,7 +32,7 @@ public sealed class CreateOrEditToDoItemDialogViewModel : ViewModelBase
         set => Set(ref _text, value);
     }
 
-    public CreateOrEditToDoItemDialogViewModel(IToDoService toDoService)
+    public CreateToDoItemDialogViewModel(IToDoService toDoService)
     {
         _toDoService = toDoService;
     }
@@ -49,12 +45,16 @@ public sealed class CreateOrEditToDoItemDialogViewModel : ViewModelBase
 
     public async Task CreateToDoItem()
     {
-        ValidationResult validationResult = await _validator.ValidateAsync(Text);
-        if (validationResult.IsValid)
+        if (!await IsRequestValid())
         {
-            await _toDoService.CreateToDoItems(Text);
-            DialogInstance.Close();
+            return;
         }
+        
+        await _toDoService.CreateToDoItems(Text);
+        DialogInstance.Close();
     }
+    
+    private async Task<bool> IsRequestValid()
+        => (await _validator.ValidateAsync(Text)).IsValid;
 }
 

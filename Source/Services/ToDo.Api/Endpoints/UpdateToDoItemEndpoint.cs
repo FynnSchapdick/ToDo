@@ -30,7 +30,7 @@ public sealed class UpdateToDoItemEndpoint : EndpointBaseAsync.WithRequest<Updat
         Description = "Updates a ToDoItem",
         OperationId = "ToDoItem.Update",
         Tags = new[] {"ToDoItems"})]
-    public override async Task<ActionResult> HandleAsync([FromRoute] UpdateToDoItemRequest request, CancellationToken ct = default)
+    public override async Task<ActionResult> HandleAsync([FromBody] UpdateToDoItemRequest request, CancellationToken ct = default)
     {
         ValidationResult validationResult = await _validator.ValidateAsync(request, ct);
         if (!validationResult.IsValid)
@@ -38,7 +38,7 @@ public sealed class UpdateToDoItemEndpoint : EndpointBaseAsync.WithRequest<Updat
             return BadRequest(validationResult.ToDictionary());
         }
 
-        await _sender.Send((request.ToDoItemId, request.Body.Text), ct);
+        await _sender.Send(new UpdateToDoItemCommand(request.ToDoItemId, request.Body.Text), ct);
 
         return Ok();
     }

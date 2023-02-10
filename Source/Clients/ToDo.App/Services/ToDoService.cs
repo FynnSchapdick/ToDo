@@ -20,5 +20,13 @@ public sealed class ToDoService : IToDoService
             .Transform(x => new ToDoItemModel(x.ToDoItemId, x.Text, x.Completed));
 
     public async Task CreateToDoItems(string text)
-        => (await _client.CreateToDoItem(new CreateToDoItemRequest(text))).Validate();
+        => (await _client.CreateToDoItem(new CreateToDoItemRequest(text)))
+            .Validate();
+
+    public async Task DeleteToDoItem(Guid id)
+        => (await _client.DeleteToDoItem(id)).Validate();
+
+    public async Task UpdateToDoItemText(Guid id, string text)
+        => (await _client.UpdateToDoItem(new UpdateToDoItemRequest(id, new UpdateToDoItemRequestBody(text))))
+            .Validate();
 }

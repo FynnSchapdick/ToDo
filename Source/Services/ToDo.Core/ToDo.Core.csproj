@@ -18,4 +18,22 @@
       <ProjectReference Include="..\..\Shared\ToDo.Framework\ToDo.Framework.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Application\Features\CreateToDoItemCommand.cs">
+        <DependentUpon>CreateToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Application\Features\DeleteToDoItemCommand.cs">
+        <DependentUpon>DeleteToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Application\Features\GetPaginatedToDoItemsQuery.cs">
+        <DependentUpon>GetPaginatedToDoItemsQueryHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Application\Features\ToggleCompleteToDoItemCommand.cs">
+        <DependentUpon>ToggleCompleteToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Application\Features\UpdateToDoItemCommand.cs">
+        <DependentUpon>UpdateToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

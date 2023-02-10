@@ -18,7 +18,6 @@ builder.Host.UseSerilog((context, configuration) =>
         .ReadFrom.Configuration(context.Configuration)
         .WriteTo.Console();
 });
-
 builder.Services
     .AddFramework()
     .AddCore()

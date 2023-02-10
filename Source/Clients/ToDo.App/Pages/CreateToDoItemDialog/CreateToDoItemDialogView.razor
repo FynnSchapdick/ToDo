@@ -1,14 +1,7 @@
-﻿@inherits MvvmComponentBase<CreateOrEditToDoItemDialogViewModel>
+﻿@inherits MvvmComponentBase<CreateToDoItemDialogViewModel>
 <MudDialog>
     <TitleContent>
-        @if (IsCreate)
-        {
-            <MudText Typo="Typo.h6">Create ToDo</MudText>
-        }
-        else
-        {
-            <MudText Typo="Typo.h6">Edit ToDo</MudText>
-        }        
+        <MudText Typo="Typo.h6">Create ToDo</MudText> 
     </TitleContent>
     <DialogContent>
         <MudForm>
@@ -26,7 +19,4 @@
 
     [CascadingParameter]
     public MudDialogInstance DialogInstance { get; set; } = null!;
-
-    [Parameter]
-    public bool IsCreate { get; set; }
 }

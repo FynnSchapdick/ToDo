@@ -3,16 +3,20 @@ using MudBlazor;
 using MvvmBlazor.ViewModel;
 using ToDo.App.Models;
 using ToDo.App.Pages.CreateToDoItemDialog;
+using ToDo.App.Pages.DeleteToDoItemDialog;
+using ToDo.App.Pages.EditToDoItemDialog;
 using ToDo.App.Services.Abstractions;
 
 namespace ToDo.App.Pages.ToDoItems;
 
 public sealed class ToDoItemsViewModel : ViewModelBase
 {
-    private const string CREATE_DIALOG_TITLE = "Create ToDo";
-    private const string EDIT_DIALOG_TITLE = "Edit ToDo";
+    private const string CreateDialogTitle = "Create ToDo";
+    private const string DeleteDialogTitle = "Delete ToDo";
+    private const string EditDialogTitle = "Edit ToDo";
     private readonly IToDoService _toDoService;
     private IEnumerable<ToDoItemModel> _toDoItems = new List<ToDoItemModel>();
+
     public IEnumerable<ToDoItemModel> ToDoItems
     {
         get => _toDoItems;
@@ -20,6 +24,7 @@ public sealed class ToDoItemsViewModel : ViewModelBase
     }
 
     private string _searchString = string.Empty;
+
     public string SearchString
     {
         get => _searchString;
@@ -27,14 +32,14 @@ public sealed class ToDoItemsViewModel : ViewModelBase
     }
 
     private ToDoItemModel _selectedItem;
+
     public ToDoItemModel SelectedItem
     {
         get => _selectedItem;
         set => Set(ref _selectedItem, value);
     }
 
-    [Parameter]
-    public IDialogService DialogService { get; set; } = null!;
+    [Parameter] public IDialogService DialogService { get; set; } = null!;
 
     public ToDoItemsViewModel(IToDoService toDoService)
     {
@@ -49,8 +54,7 @@ public sealed class ToDoItemsViewModel : ViewModelBase
 
     public async Task CreateToDoItem()
     {
-        bool isCanceled = await ShowDialog(CREATE_DIALOG_TITLE, new() { ["IsCreate"] = true });
-        if (!isCanceled)
+        if (await DialogSuccess<CreateToDoItemDialogView>(CreateDialogTitle, new DialogParameters()))
         {
             ToDoItems = await _toDoService.GetToDoItems(1, 100);
         }
@@ -58,17 +62,29 @@ public sealed class ToDoItemsViewModel : ViewModelBase
 
     public async Task EditToDoItem()
     {
-        bool isCanceled = await ShowDialog(CREATE_DIALOG_TITLE, new() { ["IsCreate"] = false });
-        if (!isCanceled)
+        if (await DialogSuccess<EditToDoItemDialogView>(EditDialogTitle, new DialogParameters {["Model"] = SelectedItem }))
         {
             ToDoItems = await _toDoService.GetToDoItems(1, 100);
         }
     }
 
-    private async Task<bool> ShowDialog(string title, DialogParameters parameters)
+    public async Task DeleteToDoItem()
     {
-        IDialogReference dialog = await DialogService.ShowAsync<CreateOrEditToDoItemDialogView>(title, parameters);
-        DialogResult dialogResult = await dialog.Result;
-        return dialogResult.Canceled;
+        if (await DialogSuccess<DeleteToDoItemDialogView>(DeleteDialogTitle, new DialogParameters
+            {
+                ["ToDoItemId"] = SelectedItem.Id
+            }))
+        {
+            ToDoItems = await _toDoService.GetToDoItems(1, 100);
+        }
     }
+    
+    public void RowClickEvent(TableRowClickEventArgs<ToDoItemModel> tableRowClickEventArgs)
+    {
+        SelectedItem = tableRowClickEventArgs.Item;
+    }
+
+    private async Task<bool> DialogSuccess<T>(string title, DialogParameters parameters) where T : ComponentBase
+        => !(await (await DialogService.ShowAsync<T>(title, parameters)).Result)
+            .Canceled;
 }
