@@ -11,4 +11,10 @@
       <PackageReference Include="Refit" Version="6.3.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.2\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

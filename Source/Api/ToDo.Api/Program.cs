@@ -5,6 +5,7 @@ using ToDo.Api.Extensions;
 using ToDo.Api.Features.Extensions;
 using ToDo.Api.Middleware;
 using ToDo.Api.Options;
+using ToDo.Shared.Contracts.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 InfrastructureOptions iOptions = new();
@@ -18,6 +19,7 @@ builder.Host.UseSerilog((context, configuration) =>
         .WriteTo.Console();
 });
 builder.Services
+    .AddContracts()
     .AddApplication()
     .AddData(iOptions)
     .AddApi(aOptions);

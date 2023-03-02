@@ -1,7 +1,7 @@
 ﻿using ToDo.Api.Domain;
 using ToDo.Api.Domain.Exceptions;
 
-namespace ToDo.Core.UnitTests.Domain;
+namespace ToDo.Core.UnitTests;
 
 public sealed class ToDoItemTests
 {
