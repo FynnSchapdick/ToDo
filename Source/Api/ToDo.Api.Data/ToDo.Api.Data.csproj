@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+      <PackageReference Include="Sieve" Version="2.5.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\ToDo.Shared.Contracts\ToDo.Shared.Contracts.csproj" />
+      <ProjectReference Include="..\ToDo.Api.Domain\ToDo.Api.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Entities\ToDoItemConfiguration.cs">
+        <DependentUpon>ToDoItemEntity.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

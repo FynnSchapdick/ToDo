@@ -1,0 +1,26 @@
+﻿@using ToDo.App.Core
+@inherits MvvmComponentBase<EditToDoItemDialogViewModel>
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Edit ToDo</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm>
+            <MudTextField @bind-Value="@BindingContext.Model.Text" For="@(() => BindingContext.Model.Text)" Label="Text" Immediate="true" Validation="@BindingContext.Validator.Validation"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Error" OnClick="@BindingContext.Cancel">Cancel</MudButton>
+        <MudSpacer/>
+        <MudButton Color="Color.Primary" OnClick="@BindingContext.UpdateToDoItemText">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code{
+
+    [CascadingParameter]
+    public MudDialogInstance DialogInstance { get; set; } = null!;
+
+    [Parameter]
+    public ToDoItemModel Model { get; set; } = null!;
+}

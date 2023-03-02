@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\ToDo.Shared.Contracts\ToDo.Shared.Contracts.csproj" />
+      <ProjectReference Include="..\ToDo.Api.Data\ToDo.Api.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="CreateToDoItemCommand.cs">
+        <DependentUpon>CreateToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="DeleteToDoItemCommand.cs">
+        <DependentUpon>DeleteToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="GetPaginatedToDoItemsQuery.cs">
+        <DependentUpon>GetPaginatedToDoItemsQueryHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="GetPaginatedToDoItemsQueryHandler.cs">
+        <DependentUpon>ToggleCompleteToDoItemCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="ToggleCompleteToDoItemCommand.cs">
+        <DependentUpon>ToggleCompleteToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+      <Compile Update="UpdateToDoItemCommand.cs">
+        <DependentUpon>UpdateToDoItemCommandHandler.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

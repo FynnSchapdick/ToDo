@@ -1,0 +1,53 @@
+﻿@using ToDo.App.Core
+@inherits MvvmComponentBase<ToDoItemsViewModel>
+@inject IDialogService _dialogService
+@page "/todos"
+
+<MudTable @ref="_table" MultiSelection="false" Items="@BindingContext.ToDoItems" Hover="true" T="ToDoItemModel" SortLabel="Sort By" >
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">ToDo's</MudText>
+        <MudSpacer/>
+        <MudTextField @bind-Value="@BindingContext.SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudSpacer/>
+        <MudButton Color="Color.Default" OnClick="@BindingContext.CreateToDoItem">Create ToDo</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<ToDoItemModel, object>(x => x.Id)">Id</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<ToDoItemModel, object>(x => x.Text)">Text</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortBy="new Func<ToDoItemModel, object>(x => x.Completed)">Completed</MudTableSortLabel>
+        </MudTh>
+        <MudTh></MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Text">@context.Text</MudTd>
+        <MudTd>
+            <MudCheckBox @bind-Checked="@context.Completed"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="   BindingContext.EditToDoItem" />
+        </MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="BindingContext.DeleteToDoItem"/>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private MudTable<ToDoItemModel> _table = null!;
+
+    [Parameter]
+    public IDialogService DialogService { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        DialogService = _dialogService;
+        base.OnInitialized();
+    }
+}
