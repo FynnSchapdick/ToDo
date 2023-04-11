@@ -1,36 +1,32 @@
 using Serilog;
-using ToDo.Api.Data;
 using ToDo.Api.Data.Extensions;
 using ToDo.Api.Extensions;
-using ToDo.Api.Features.Extensions;
-using ToDo.Api.Middleware;
-using ToDo.Api.Options;
-using ToDo.Shared.Contracts.Extensions;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-InfrastructureOptions iOptions = new();
-ApiOptions aOptions = new();
-builder.Configuration.GetSection(nameof(InfrastructureOptions)).Bind(iOptions);
-builder.Configuration.GetSection(nameof(ApiOptions)).Bind(aOptions);
-builder.Host.UseSerilog((context, configuration) =>
+Log.Logger = ConfigurationBuilderExtensions
+    .BuildConfiguration(args)
+    .CreateLogger();
+
+try
 {
-    configuration
-        .ReadFrom.Configuration(context.Configuration)
-        .WriteTo.Console();
-});
-builder.Services
-    .AddContracts()
-    .AddApplication()
-    .AddData(iOptions)
-    .AddApi(aOptions);
+    Log.Information("Starting up...");
+    
+    WebApplication.CreateBuilder(args)
+        .AddData()
+        .AddApi()
+        .Build()
+        .UseApi()
+        .Run();
+    
+    Log.Information("Shutting down...");
+}
+catch (Exception exception)
+{
+    Log.Fatal(exception, "Api host terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
-WebApplication app = builder.Build();
-app.UseMiddleware<ErrorDetailsMiddleware>();
-app.UseRouting();
-app.UseCors("AllowOrigin");
-app.UseSerilogRequestLogging();
-app.UseSwagger();
-app.UseSwaggerUI();
-app.MapControllers();
-app.MapSwagger();
-app.Run();
+
+

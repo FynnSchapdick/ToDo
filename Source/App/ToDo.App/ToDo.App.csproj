@@ -7,13 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Shared\MainLayout.razor" />
-      <_ContentIncludedByDefault Remove="Shared\NavMenu.razor" />
-      <_ContentIncludedByDefault Remove="Shared\SurveyPrompt.razor" />
+        <_ContentIncludedByDefault Remove="Shared\MainLayout.razor" />
+        <_ContentIncludedByDefault Remove="Shared\NavMenu.razor" />
+        <_ContentIncludedByDefault Remove="Shared\SurveyPrompt.razor" />
+        <_ContentIncludedByDefault Remove="Pages\CreateToDoItemDialog\CreateToDoItemDialogView.razor" />
+        <_ContentIncludedByDefault Remove="Pages\DeleteToDoItemDialog\DeleteToDoItemDialogView.razor" />
+        <_ContentIncludedByDefault Remove="Pages\EditToDoItemDialog\EditToDoItemDialogView.razor" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ToDo.App.Components\ToDo.App.Components.csproj" />
+        <PackageReference Include="FluentValidation" Version="11.5.1" />
+        <PackageReference Include="MudBlazor" Version="6.2.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ToDo.App.Core\ToDo.App.Core.csproj" />
+        <ProjectReference Include="..\ToDo.App.Infrastructure\ToDo.App.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

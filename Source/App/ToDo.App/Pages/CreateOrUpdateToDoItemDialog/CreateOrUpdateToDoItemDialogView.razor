@@ -1,0 +1,60 @@
+﻿@using ToDo.App.Validators
+@using FluentValidation
+@using FluentValidation.Results
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@Dialog.Title</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm>
+            <MudTextField @bind-Value="Text" For="@(() => Text)" Label="Text" Immediate="true" Validation="_validator.Validation"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudSpacer/>
+        <MudButton Color="Color.Primary" OnClick="CreateToDoItem">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    private const string InvalidLengthMessage = "Text must be at least 5 and maximum 255 characters long";
+    private const string EmptyMessage = "Text must not be empty";
+
+    [CascadingParameter]
+    MudDialogInstance Dialog { get; set; } = null!;
+    
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
+
+    private readonly FluentValueValidator<string> _validator = new(x => x
+        .NotNull()
+        .NotEmpty()
+        .WithMessage(EmptyMessage)
+        .Length(5, 255)
+        .WithMessage(InvalidLengthMessage));
+
+    private async Task CreateToDoItem()
+    {
+        if (!await IsRequestValid())
+        {
+            return;
+        }
+        
+        Dialog.Close(DialogResult.Ok(Text));
+    }
+
+    private Task Cancel()
+    {
+        Dialog.Cancel();
+        return Task.CompletedTask;
+    }
+
+    private async Task<bool> IsRequestValid()
+    {
+        ValidationResult validationResult = await _validator.ValidateAsync(Text);
+        return validationResult.IsValid;
+    }
+
+}

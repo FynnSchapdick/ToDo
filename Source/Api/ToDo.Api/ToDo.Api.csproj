@@ -9,17 +9,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
-      <PackageReference Include="FluentValidation" Version="11.5.1" />
-      <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+        <PackageReference Include="FluentValidation" Version="11.5.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />       
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+        <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />        
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\ToDo.Shared.Constants\ToDo.Shared.Constants.csproj" />
-      <ProjectReference Include="..\ToDo.Api.Features\ToDo.Api.Features.csproj" />
+      <ProjectReference Include="..\ToDo.Api.Core\ToDo.Api.Core.csproj" />
       <ProjectReference Include="..\ToDo.Api.Data\ToDo.Api.Data.csproj" />
     </ItemGroup>
-
 </Project>

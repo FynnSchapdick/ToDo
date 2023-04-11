@@ -1,31 +1,16 @@
-using MudBlazor.Services;
-using ToDo.App;
-using ToDo.App.Components.Shared;
+using ToDo.App.Extensions;
+using ToDo.App.Infrastructure.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddMudServices();
-builder.Services.AddMvvm();
-
-
-var currentAssembly = typeof(App).Assembly;
-var componentAssembly = typeof(MainLayout).Assembly;
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+try
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    WebApplication.CreateBuilder(args)
+        .AddApp()
+        .AddInfrastructure()
+        .Build()
+        .UseApp()
+        .Run();
+}
+catch (Exception ex)
+{
 }
 
-app.UseStaticFiles();
-app.UseRouting();
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
-app.Run();

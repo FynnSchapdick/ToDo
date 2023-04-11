@@ -1,7 +1,8 @@
-﻿using ToDo.App.Core;
-using ToDo.App.Infrastructure.Services.Abstractions;
-using ToDo.Shared.Contracts.Extensions;
-using ToDo.Shared.Contracts.V1.Requests;
+﻿using Refit;
+using ToDo.App.Core.Abstractions;
+using ToDo.App.Core.Domain;
+using ToDo.App.Infrastructure.Extensions;
+using ToDo.Client;
 
 namespace ToDo.App.Infrastructure.Services;
 
@@ -13,19 +14,31 @@ public sealed class ToDoService : IToDoService
     {
         _client = client;
     }
-    public async Task<IEnumerable<ToDoItemModel>> GetToDoItems(int page, int pageSize)
-        => (await _client.GetPaginatedToDoItems(page, pageSize))
-            .Validate().Content!
-            .Transform(x => new ToDoItemModel(x.ToDoItemId, x.Text, x.Completed));
 
-    public async Task CreateToDoItems(string text)
-        => (await _client.CreateToDoItem(new CreateToDoItemRequest(text)))
-            .Validate();
+    public async Task<IEnumerable<ToDoItem>> GetToDoItems(int page, int pageSize)
+        => (await _client.GetPaginatedToDoItems(page, pageSize)).Transform(x => new ToDoItem(x.ToDoItemId, x.Text, x.Status));
 
-    public async Task DeleteToDoItem(Guid id)
-        => (await _client.DeleteToDoItem(id)).Validate();
+    public async Task<Guid> CreateToDoItem(string text)
+    {
+        ApiResponse<Guid> response = await _client.PostToDoItem(new(text));
+        return response.ValidateResponseStruct();
+    }
 
-    public async Task UpdateToDoItemText(Guid id, string text)
-        => (await _client.UpdateToDoItem(new UpdateToDoItemRequest(id, new UpdateToDoItemRequestBody(text))))
-            .Validate();
+    public async Task<bool> DeleteToDoItem(Guid id)
+    {
+        IApiResponse response = await _client.DeleteToDoItem(id);
+        return response.Validate();
+    }
+
+    public async Task<bool> PatchToDoItemText(Guid id, string text)
+    {
+        IApiResponse response = await _client.PatchToDoItemText(id, new(text));
+        return response.Validate();
+    }
+
+    public async Task<bool> PatchToDoItemStatus(Guid id, string status)
+    {
+        IApiResponse response = await _client.PatchToDoItemStatus(id, new(status));
+        return response.Validate();
+    }
 }

@@ -1,30 +1,22 @@
 ﻿using System.Net;
-using ToDo.Api.Data.Exceptions;
+using Serilog;
 
 namespace ToDo.Api.Middleware;
 
-public sealed class ErrorDetailsMiddleware
+public sealed class ErrorDetailsMiddleware : IMiddleware
 {
     private const string ResponseContentType = "application/json";
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorDetailsMiddleware> _logger;
-
-    public ErrorDetailsMiddleware(RequestDelegate next, ILogger<ErrorDetailsMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
-
-    public async Task InvokeAsync(HttpContext httpContext)
+    
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
         {
-            await _next(httpContext);
+            await next(context);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
-            await HandleExceptionAsync(httpContext, ex);
+            Log.Logger.Error(ex, ex.Message);
+            await HandleExceptionAsync(context, ex);
         }
     }
     
@@ -33,11 +25,9 @@ public sealed class ErrorDetailsMiddleware
         context.Response.ContentType = ResponseContentType;
         context.Response.StatusCode = exception switch
         {
-            ToDoItemNotFoundException toDoItemNotFoundException => (int) HttpStatusCode.NotFound,
-            CommitFailedException commitFailedException => (int) HttpStatusCode.InternalServerError,
             _ => (int) HttpStatusCode.InternalServerError
         };
         
-        await context.Response.WriteAsync($"Responded with Message: {exception.Message}");
+        await context.Response.WriteAsync($"Responded with Message: {exception.Message} and Stacktrace: {exception.StackTrace}");
     }
 }

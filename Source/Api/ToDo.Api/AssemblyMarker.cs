@@ -1,5 +1,3 @@
 ﻿namespace ToDo.Api;
 
-public sealed class AssemblyMarker
-{
-}
+public sealed record AssemblyMarker;

@@ -1,0 +1,23 @@
+﻿@using ToDo.App.Core.Domain
+<MudListItem T="ToDoItem" Value="Model">
+    <MudStack Row="true">
+        <MudText>@Model.Text</MudText>
+        <MudSpacer/>
+        @EditButton(Model)
+        @DeleteButton(Model)
+    </MudStack>
+
+</MudListItem>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public ToDoItem Model { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<ToDoItem> EditButton { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<ToDoItem> DeleteButton { get; set; } = null!;
+
+}

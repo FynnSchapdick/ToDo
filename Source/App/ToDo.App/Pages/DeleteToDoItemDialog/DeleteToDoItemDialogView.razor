@@ -1,0 +1,38 @@
+﻿<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@Dialog.Title</MudText>
+    </TitleContent>
+    @* <DialogContent> *@
+    @*     <MudForm> *@
+    @*         <MudTextField @bind-Value="@BindingContext.Text" For="@(() => BindingContext.Text)" Label="Text" Immediate="true" Validation="@BindingContext.Validator.Validation"/> *@
+    @*     </MudForm> *@
+    @* </DialogContent> *@
+    <DialogActions>
+        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudSpacer/>
+        <MudButton Color="Color.Primary" OnClick="DeleteToDoItem">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code{
+
+    [CascadingParameter]
+    MudDialogInstance Dialog { get; set; } = null!;
+
+    [Parameter]
+    public Guid ToDoItemId { get; set; }
+
+    private Task DeleteToDoItem()
+    {
+        Dialog.Close(DialogResult.Ok(ToDoItemId));
+        return Task.CompletedTask;
+    }
+
+    private Task Cancel()
+    {
+        Dialog.Cancel();
+        return Task.CompletedTask;
+    }
+
+}

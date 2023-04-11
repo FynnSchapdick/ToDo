@@ -1,0 +1,111 @@
+﻿@using ToDo.App.Core.Domain
+@using ToDo.App.Core.Abstractions
+@using ToDo.App.Pages.CreateOrUpdateToDoItemDialog
+@using ToDo.App.Pages.DeleteToDoItemDialog
+@page "/todos"
+@inject IToDoService ToDoService
+@inject IDialogService DialogService
+<PageTitle>Todos</PageTitle>
+
+<MudPaper Elevation="25">
+    <MudToolBar>
+        <MudButton Color="Color.Default" OnClick="CreateToDoItem">Create ToDo</MudButton>
+    </MudToolBar>
+</MudPaper>
+<MudDropContainer @ref="_container" T="ToDoItem" Items="_items" ItemsSelector="@((item, dropzone) => item.Status == dropzone)" ItemDropped="UpdateItemStatus" Class="d-flex flex-wrap flex-grow-1">
+    <ChildContent>
+        <MudStack>
+            <MudStack Row="true">
+                <MudPaper Class="d-flex justify-center flex-grow-1 gap-4" Elevation="0">
+                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                        <MudListSubheader>To Do</MudListSubheader>
+                        <MudDropZone T="ToDoItem" Identifier="Incomplete" Class="flex-grow-1" AllowReorder="true"/>
+                    </MudList>
+                </MudPaper>
+                <MudPaper Class="d-flex justify-center flex-grow-1 gap-4" Elevation="0">
+                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                        <MudListSubheader>Done</MudListSubheader>
+                        <MudDropZone T="ToDoItem" Identifier="Completed" Class="flex-grow-1" AllowReorder="true"/>
+                    </MudList>
+                </MudPaper>
+            </MudStack>
+        </MudStack>
+    </ChildContent>
+    <ItemRenderer>
+        <ToDoItemComponent Model="@context">
+            <EditButton Context="itemToEdit">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="() => UpdateItemText(itemToEdit)" aria-label="edit"></MudIconButton>
+            </EditButton>
+            <DeleteButton Context="itemToDelete">
+                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteToDoItem(itemToDelete)" aria-label="delete"></MudIconButton>
+            </DeleteButton>
+        </ToDoItemComponent>
+    </ItemRenderer>
+</MudDropContainer>
+
+@code{
+    
+    private const string CreateToDoItemDialogTitle = "Create ToDo";
+    private const string UpdateToDoItemDialogTitle = "Update ToDo";
+    private const string DeleteToDoItemDialogTitle = "Delete ToDo";
+    
+    private MudDropContainer<ToDoItem>? _container;
+
+    private List<ToDoItem> _items = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _items = (await ToDoService.GetToDoItems(1, 100)).ToList();
+        RefreshComponent();
+    }
+    
+    private async Task CreateToDoItem()
+    {
+        if (await ShowDialogAsync<CreateOrUpdateToDoItemDialogView>(CreateToDoItemDialogTitle, new DialogParameters()) is {Data: string text, Canceled: false}
+            && await ToDoService.CreateToDoItem(text) is var toDoItemId)
+        {
+            _items.Add(new ToDoItem(toDoItemId, text));
+            RefreshComponent();
+        }
+    }
+
+    private async Task UpdateItemStatus(MudItemDropInfo<ToDoItem> dropItem)
+    {
+        if (!await ToDoService.PatchToDoItemStatus(dropItem.Item.Id, dropItem.DropzoneIdentifier)) return;
+        dropItem.Item.Status = dropItem.DropzoneIdentifier;
+        RefreshComponent();
+    }
+
+    private void RefreshComponent()
+    {
+        StateHasChanged();
+        _container?.Refresh();
+    }
+
+    private async Task UpdateItemText(ToDoItem item)
+    {
+        if (await ShowDialogAsync<CreateOrUpdateToDoItemDialogView>(UpdateToDoItemDialogTitle, new DialogParameters {["Text"] = item.Text}) is {Data: string text, Canceled: false}
+            && await ToDoService.PatchToDoItemText(item.Id, text))
+        {
+            item.Text = text;
+            RefreshComponent();
+        }
+    }
+
+    private async Task DeleteToDoItem(ToDoItem item)
+    {
+        if (await ShowDialogAsync<DeleteToDoItemDialogView>(DeleteToDoItemDialogTitle, new DialogParameters {["ToDoItemId"] = item.Id}) is {Data: Guid id, Canceled: false}
+            && await ToDoService.DeleteToDoItem(id))
+        {
+            _items.Remove(item);
+            RefreshComponent();
+        }
+    }
+
+
+    private async Task<DialogResult> ShowDialogAsync<T>(string title, DialogParameters parameters) where T : ComponentBase
+    {
+        IDialogReference? dialogReference = await DialogService.ShowAsync<T>(title, parameters);
+        return await dialogReference.Result;
+    }
+}
