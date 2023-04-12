@@ -1,4 +1,6 @@
-﻿namespace ToDo.Api.Core.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ToDo.Api.Core.Domain;
 
 public sealed record ToDoItem
 {
@@ -13,6 +15,7 @@ public sealed record ToDoItem
     /// <summary>
     /// Needed for Entity-Framework-Core
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public ToDoItem()
     {
         

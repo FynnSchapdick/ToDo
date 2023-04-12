@@ -24,13 +24,16 @@ public sealed class MainLayoutTests : SeleniumTestBase, IClassFixture<ToDoAppFac
         try
         {
             WebDriver.Navigate().GoToUrl($"{_webUrl}/{uri}");
-
-            WebDriver.FindElement(By.TagName("aside")).GetAttribute("class")
+            Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            
+            new WebDriverWait(WebDriver, TimeSpan.FromMilliseconds(300))
+                .Until(ExpectedConditions.ElementToBeClickable(WebDriver.FindElement(By.TagName("aside"))))
+                .GetAttribute("class")
                 .Contains("mud-drawer--open")
                 .Should()
                 .BeTrue();
 
-            new WebDriverWait(WebDriver, TimeSpan.FromMilliseconds(100))
+            new WebDriverWait(WebDriver, TimeSpan.FromMilliseconds(300))
                 .Until(ExpectedConditions.ElementToBeClickable(WebDriver.FindElement(By.ClassName("mud-button-root"))))
                 .Click();
 

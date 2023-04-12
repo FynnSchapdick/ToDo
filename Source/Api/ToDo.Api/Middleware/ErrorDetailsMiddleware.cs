@@ -22,12 +22,13 @@ public sealed class ErrorDetailsMiddleware : IMiddleware
     
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        context.Response.Body.Position = 0;
         context.Response.ContentType = ResponseContentType;
         context.Response.StatusCode = exception switch
         {
             _ => (int) HttpStatusCode.InternalServerError
         };
-        
+
         await context.Response.WriteAsync($"Responded with Message: {exception.Message} and Stacktrace: {exception.StackTrace}");
     }
 }
