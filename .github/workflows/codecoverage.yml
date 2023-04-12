@@ -19,14 +19,6 @@ jobs:
       with:
         dotnet-version: 7.0.x
         
-    - name: Set up Python environment
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-
-    - name: Install dependencies
-      run: pip install chromedriver-binary
-
     - name: Restore Dependencies
       run: dotnet restore ToDo.sln
 
