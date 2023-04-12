@@ -35,7 +35,7 @@ jobs:
         badge: true
         fail_below_min: true
         format: markdown
-        hide_branch_rate: false
+        hide_branch_rate: true
         hide_complexity: false
         indicators: true
         output: both
@@ -43,7 +43,6 @@ jobs:
 
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
       with:
         recreate: true
         path: code-coverage-results.md
