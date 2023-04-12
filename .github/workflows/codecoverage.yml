@@ -26,7 +26,7 @@ jobs:
       run: dotnet build ToDo.sln --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test ToDo.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test ToDo.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage --parallel none
 
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
