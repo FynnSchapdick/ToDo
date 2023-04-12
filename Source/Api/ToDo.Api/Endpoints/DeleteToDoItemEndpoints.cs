@@ -1,7 +1,5 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using ToDo.Api.Contracts.Requests;
 using ToDo.Api.Core.Abstractions;
 using ToDo.Api.Core.Domain;

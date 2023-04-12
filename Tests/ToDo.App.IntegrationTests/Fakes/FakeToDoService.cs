@@ -31,13 +31,7 @@ public sealed class FakeToDoService : IToDoService
     public Task<bool> DeleteToDoItem(Guid id)
     {
         ToDoItem? toDoItem = _toDoItems.FirstOrDefault(x => x.Id == id);
-        if  (toDoItem is null)
-        {
-            return Task.FromResult(false);
-        }
-
-        _toDoItems.Remove(toDoItem);
-        return Task.FromResult(true);
+        return Task.FromResult(toDoItem is not null && _toDoItems.Remove(toDoItem));
     }
 
     public Task<bool> PatchToDoItemText(Guid id, string text)

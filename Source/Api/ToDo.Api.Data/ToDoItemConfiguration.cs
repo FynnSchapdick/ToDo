@@ -8,7 +8,6 @@ public sealed class ToDoItemConfiguration : IEntityTypeConfiguration<ToDoItem>
 {
     private const string TodoItemTable = "todoitems";
     private const string TodoItemPrimaryKey = "pk_todoitems";
-    private const string TodoItemTextIndex = "ix_text";
     private const string TodoItemIdColumn = "id";
     private const int TodoItemTextMaxLength = 255;
     private const string TodoItemTextColumnName = "text";
@@ -30,9 +29,5 @@ public sealed class ToDoItemConfiguration : IEntityTypeConfiguration<ToDoItem>
 
         builder.Property(x => x.Status)
             .HasColumnName(TodoItemStatusColumn);
-
-        builder.HasIndex(x => x.Text)
-            .IsUnique()
-            .HasDatabaseName(TodoItemTextIndex);
     }
 }

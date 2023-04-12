@@ -19,7 +19,7 @@ public sealed class MainLayoutTests : SeleniumTestBase, IClassFixture<ToDoAppFac
     [Theory]
     [InlineData("")]
     [InlineData("todos")]
-    public void GoToPageAndToggleBurgerMenu_ShouldToggleState(string uri)
+    public void ToggleBurgerMenuOnPage_ShouldToggle(string uri)
     {
         try
         {
@@ -39,11 +39,11 @@ public sealed class MainLayoutTests : SeleniumTestBase, IClassFixture<ToDoAppFac
                 .Should()
                 .BeTrue();
 
-            TakeScreenShot(nameof(GoToPageAndToggleBurgerMenu_ShouldToggleState));
+            TakeScreenShot(nameof(ToggleBurgerMenuOnPage_ShouldToggle));
         }
         catch
         {
-            TakeScreenShot(nameof(GoToPageAndToggleBurgerMenu_ShouldToggleState));
+            TakeScreenShot(nameof(ToggleBurgerMenuOnPage_ShouldToggle));
             throw;
         }
     }
@@ -51,7 +51,7 @@ public sealed class MainLayoutTests : SeleniumTestBase, IClassFixture<ToDoAppFac
     [Theory]
     [InlineData("")]
     [InlineData("todos")]
-    public void GoToPageAndClickMenuBarLinks_ShouldBeClickable(string uri)
+    public void ClickMenuBarLinksOnPage_ShouldBeClickable(string uri)
     {
         try
         {
@@ -66,11 +66,38 @@ public sealed class MainLayoutTests : SeleniumTestBase, IClassFixture<ToDoAppFac
                 .Until(ExpectedConditions.ElementToBeClickable(WebDriver.FindElement(By.CssSelector("a[href='https://mudblazor.com/']"))))
                 .Click();
             
-            TakeScreenShot(nameof(GoToPageAndClickMenuBarLinks_ShouldBeClickable));
+            TakeScreenShot(nameof(ClickMenuBarLinksOnPage_ShouldBeClickable));
         }
         catch
         {
-            TakeScreenShot(nameof(GoToPageAndClickMenuBarLinks_ShouldBeClickable));
+            TakeScreenShot(nameof(ClickMenuBarLinksOnPage_ShouldBeClickable));
+            throw;
+        }
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("todos")]
+    public void NavigateFromNavBar_ShouldBeClickable(string uri)
+    {
+        try
+        {
+            WebDriver.Navigate().GoToUrl($"{_webUrl}/{uri}");
+            Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            
+            new WebDriverWait(WebDriver, TimeSpan.FromMilliseconds(300))
+                .Until(ExpectedConditions.ElementToBeClickable(WebDriver.FindElement(By.LinkText("Home"))))
+                .Click();
+            
+            new WebDriverWait(WebDriver, TimeSpan.FromMilliseconds(300))
+                .Until(ExpectedConditions.ElementToBeClickable(WebDriver.FindElement(By.LinkText("ToDo's"))))
+                .Click();
+
+            TakeScreenShot(nameof(NavigateFromNavBar_ShouldBeClickable));
+        }
+        catch
+        {
+            TakeScreenShot(nameof(NavigateFromNavBar_ShouldBeClickable));
             throw;
         }
     }

@@ -21,13 +21,24 @@ public sealed class PatchToDoItemTextEndpointTests : BaseToDoItemEndpointTests
     }
     
     [Fact]
-    public async Task PatchText_ReturnsOK_WhenRequestIsInvalid()
+    public async Task PatchText_ReturnsBadRequest_WhenTextIsInvalid()
     {
         // Arrange
         await Factory.ArrangeForEndpointTesting(ToDoItems.First());
 
         // Act
         IApiResponse response = await Client.PatchToDoItemText(ToDoItems.First().ToDoItemId, new(InvalidText));
+
+        // Assert
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task PatchText_ReturnsBadRequest_WhenIdIsInvalid()
+    {
+        // Act
+        IApiResponse response = await Client.PatchToDoItemText(Guid.Empty, new(ValidText));
 
         // Assert
         Assert.NotNull(response);

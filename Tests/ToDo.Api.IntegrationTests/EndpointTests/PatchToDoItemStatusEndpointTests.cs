@@ -24,13 +24,24 @@ public sealed class PatchToDoItemStatusEndpointTests : BaseToDoItemEndpointTests
     [InlineData("InvalidStatus")]
     [InlineData("")]
     [InlineData(null)]
-    public async Task PatchStatus_ReturnsBadRequest_WhenRequestIsInvalid(string invalidStatusText)
+    public async Task PatchStatus_ReturnsBadRequest_WhenRequestedStatusIsInvalid(string invalidStatusText)
     {
         // Arrange
         await Factory.ArrangeForEndpointTesting(ToDoItems.First());
         
         // Act
         IApiResponse response = await Client.PatchToDoItemStatus(ToDoItems.First().ToDoItemId, new(invalidStatusText));
+        
+        // Assert
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.BadRequest,response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task PatchStatus_ReturnsBadRequest_WhenRequestedIdIsInvalid()
+    {
+        // Act
+        IApiResponse response = await Client.PatchToDoItemStatus(Guid.Empty, new("Completed"));
         
         // Assert
         Assert.NotNull(response);

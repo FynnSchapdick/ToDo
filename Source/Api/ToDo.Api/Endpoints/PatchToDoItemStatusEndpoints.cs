@@ -19,15 +19,18 @@ public static class PatchToDoItemStatusEndpoints
         app.MapPatch(PatchToDoItemStatusRoute, PatchToDoItemStatus)
             .Accepts<PatchToDoItemStatusRequestBody>(ContentType)
             .Produces((int) HttpStatusCode.OK)
+            .Produces((int) HttpStatusCode.NotFound)
+            .Produces((int) HttpStatusCode.BadRequest)
+            .AddEndpointFilter<ValidatorFilter<PatchToDoItemStatusRequest>>()
             .AddEndpointFilter<ValidatorFilter<PatchToDoItemStatusRequestBody>>();
     }
     
-    private static async Task<IResult> PatchToDoItemStatus([FromRoute] Guid toDoItemId , PatchToDoItemStatusRequestBody body, ToDoContext context, IUnitOfWork unitOfWork, CancellationToken cancellationToken = default)
+    private static async Task<IResult> PatchToDoItemStatus([AsParameters] PatchToDoItemStatusRequest request, PatchToDoItemStatusRequestBody body, ToDoContext context, IUnitOfWork unitOfWork, CancellationToken cancellationToken = default)
     {
-        ToDoItem? toDoItem = await context.ToDoItems.AsNoTracking().FirstOrDefaultAsync(x => x.ToDoItemId == toDoItemId, cancellationToken);
+        ToDoItem? toDoItem = await context.ToDoItems.AsNoTracking().FirstOrDefaultAsync(x => x.ToDoItemId == request.ToDoItemId, cancellationToken);
         if (toDoItem is null)
         {
-            return Results.NotFound(new { ToDoItemId = toDoItemId });
+            return Results.NotFound(new { ToDoItemId = request.ToDoItemId });
         }
 
         context.Update(toDoItem with
