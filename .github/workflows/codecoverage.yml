@@ -56,12 +56,15 @@ jobs:
         path: code-coverage-results.md
         
     - name: Move Coverage Report to README
-      env:
-        GIT_TOKEN: ${{ secrets.ACTIONPUSHCOVERAGETOREPOSECRET }}
       run: |
         git config user.name "FynnSchapdick"
         git config user.email "fschapdick@gmail.com"
         cp -f code-coverage-results.md README.md
         git add README.md
         git commit -m "Update README with code coverage report" -a || true
-        git push https://github.com/FynnSchapdick/ToDo.git HEAD:master
+        
+    - name: Push changes # push the output folder to your repo
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.ACTIONPUSHCOVERAGETOREPOSECRET }}
+        force: true
