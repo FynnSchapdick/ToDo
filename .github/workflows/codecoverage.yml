@@ -27,9 +27,6 @@ jobs:
 
     - name: Test
       run: dotnet test ToDo.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
-
-    #- name: Copy Coverage To Predictable Location
-    #  run: cp -n coverage/*/coverage.cobertura.xml ./coverage
       
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.4
@@ -57,3 +54,10 @@ jobs:
       with:        
         recreate: true
         path: code-coverage-results.md
+        
+    - name: Move Coverage Report to README
+      run: |
+        cp -f coveragereport/code-coverage-results.md README.md
+        git add README.md
+        git commit -m "Update README with code coverage report" -a || true
+        git push
