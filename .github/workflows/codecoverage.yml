@@ -64,4 +64,4 @@ jobs:
         cp -f code-coverage-results.md README.md
         git add README.md
         git commit -m "Update README with code coverage report" -a || true
-        git push
+        git push https://github.com/FynnSchapdick/ToDo.git HEAD:master
