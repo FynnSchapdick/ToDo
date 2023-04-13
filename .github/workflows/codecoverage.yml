@@ -59,7 +59,7 @@ jobs:
       env:
         GIT_TOKEN: ${{ secrets.ACTIONPUSHCOVERAGETOREPOSECRET }}
       run: |
-        git config user.name "Chappy"
+        git config user.name "FynnSchapdick"
         git config user.email "fschapdick@gmail.com"
         cp -f code-coverage-results.md README.md
         git add README.md
