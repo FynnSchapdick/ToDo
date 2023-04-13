@@ -57,7 +57,7 @@ jobs:
         
     - name: Move Coverage Report to README
       run: |
-        cp -f coveragereport/code-coverage-results.md README.md
+        cp -f code-coverage-results.md README.md
         git add README.md
         git commit -m "Update README with code coverage report" -a || true
         git push
