@@ -56,7 +56,9 @@ jobs:
         path: code-coverage-results.md        
         
     - name: Copy coverage markdown
-      run: cp -f code-coverage-results.md README.md
+      run: |
+        cp -f code-coverage-results.md README.md
+        git add README.md
       
     - name: Commit files
       run: |
