@@ -53,5 +53,11 @@ jobs:
       if: github.event_name == 'pull_request'
       with:        
         recreate: true
-        path: code-coverage-results.md    
+        path: code-coverage-results.md
+        
+    - name: Update README with code coverage summary
+      run: |
+        echo "### Code Coverage Summary" | tee -a README.md > /dev/null
+        cat code-coverage-results.md | tee -a README.md > /dev/null
+      shell: bash
       
