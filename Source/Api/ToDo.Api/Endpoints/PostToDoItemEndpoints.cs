@@ -29,6 +29,6 @@ public static class PostToDoItemEndpoints
         ToDoItem toDoItem = new ToDoItem(request.Text);
         await context.ToDoItems.AddAsync(toDoItem, cancellationToken);
         await unitOfWork.CommitChangesAsync(cancellationToken);
-        return Results.Created(httpContext.BuildRouteLocationHeaderUri(PostToDoItemRoute, toDoItem.ToDoItemId), toDoItem.ToDoItemId);
+        return Results.Created(httpContext.BuildRouteLocationHeaderUri(PostToDoItemRoute, toDoItem.ToDoItemId.ToString()), toDoItem.ToDoItemId);
     }
 }

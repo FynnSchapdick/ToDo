@@ -6,9 +6,9 @@ public sealed class ErrorDetailsMiddlewareTests
     public async Task InvokeAsync_ShouldCallNext_WhenNoExceptionThrown()
     {
         // Arrange
-        var middleware = new ErrorDetailsMiddleware();
-        var context = new DefaultHttpContext();
-        var nextCalled = false;
+        ErrorDetailsMiddleware middleware = new ErrorDetailsMiddleware();
+        DefaultHttpContext context = new DefaultHttpContext();
+        bool nextCalled = false;
 
         // Act
         await middleware.InvokeAsync(context, _ =>

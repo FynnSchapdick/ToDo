@@ -16,10 +16,8 @@ public sealed class FakeToDoService : IToDoService
         new(Guid.NewGuid(), "sampletext7"),
     };
     
-    public Task<IEnumerable<ToDoItem>> GetToDoItems(int page, int pageSize)
-    {
-        return Task.FromResult(_toDoItems.Skip((page - 1) * pageSize).Take(pageSize));
-    }
+    public Task<IEnumerable<ToDoItem>> GetToDoItems()
+        => Task.FromResult(_toDoItems.AsEnumerable());
 
     public Task<Guid> CreateToDoItem(string text)
     {

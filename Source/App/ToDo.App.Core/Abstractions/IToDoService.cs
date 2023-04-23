@@ -4,7 +4,7 @@ namespace ToDo.App.Core.Abstractions;
 
 public interface IToDoService
 {
-    Task<IEnumerable<ToDoItem>> GetToDoItems(int page, int pageSize);
+    Task<IEnumerable<ToDoItem>> GetToDoItems();
 
     Task<Guid> CreateToDoItem(string text);
 

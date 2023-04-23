@@ -7,7 +7,7 @@ namespace ToDo.Client;
 public interface IToDoClient
 {
     [Post("/todoitems")]
-    Task<ApiResponse<Guid>> PostToDoItem([Body] PostToDoItemRequestBody body);
+    Task<ApiResponse<Guid>> CreateToDoItem([Body] PostToDoItemRequestBody body);
 
     [Delete("/todoitems/{toDoItemId}")]
     Task<IApiResponse> DeleteToDoItem(Guid toDoItemId);
@@ -19,5 +19,5 @@ public interface IToDoClient
     Task<IApiResponse> PatchToDoItemStatus(Guid toDoItemId, [Body] PatchToDoItemStatusRequestBody body);
     
     [Get("/todoitems")]
-    Task<ApiResponse<GetPaginatedToDoItemsResponse>> GetPaginatedToDoItems(int page, int pageSize, string sorts ="", string filters = "");
+    Task<ApiResponse<GetToDoItemsResponse>> GetToDoItems();
 }

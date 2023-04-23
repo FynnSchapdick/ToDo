@@ -14,7 +14,6 @@ public static class DeleteToDoItemEndpoints
 
     public static void MapDeleteToDoItemEndpoints(this WebApplication app)
     {
-
         app.MapDelete(DeleteToDoItemRoute, DeleteToDoItem)
             .Produces((int) HttpStatusCode.OK)
             .Produces((int) HttpStatusCode.NotFound)

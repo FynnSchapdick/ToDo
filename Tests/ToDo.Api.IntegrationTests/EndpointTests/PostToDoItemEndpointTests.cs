@@ -10,7 +10,7 @@ public sealed class PostToDoItemEndpointTests : BaseToDoItemEndpointTests
     public async Task Post_ReturnsCreated_WhenRequestIsValid()
     {
         // Act
-        IApiResponse response = await Client.PostToDoItem(new(ValidText));
+        IApiResponse response = await Client.CreateToDoItem(new(ValidText));
         
         // Assert
         Assert.NotNull(response);
@@ -21,7 +21,7 @@ public sealed class PostToDoItemEndpointTests : BaseToDoItemEndpointTests
     public async Task Post_ReturnsBadRequest_WhenRequestIsNotValid()
     {
         // Act
-        IApiResponse response = await Client.PostToDoItem(new(InvalidText));
+        IApiResponse response = await Client.CreateToDoItem(new(InvalidText));
         
         // Assert
         Assert.NotNull(response);

@@ -11,9 +11,9 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="Dialog.Cancel">Cancel</MudButton>
         <MudSpacer/>
-        <MudButton Color="Color.Primary" OnClick="CreateToDoItem">Save</MudButton>
+        <MudButton Color="Color.Primary" OnClick="CreateOrUpdateToDoItem">Save</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -35,7 +35,7 @@
         .Length(5, 255)
         .WithMessage(InvalidLengthMessage));
 
-    private async Task CreateToDoItem()
+    private async Task CreateOrUpdateToDoItem()
     {
         if (!await IsRequestValid())
         {
@@ -43,12 +43,6 @@
         }
         
         Dialog.Close(DialogResult.Ok(Text));
-    }
-
-    private Task Cancel()
-    {
-        Dialog.Cancel();
-        return Task.CompletedTask;
     }
 
     private async Task<bool> IsRequestValid()

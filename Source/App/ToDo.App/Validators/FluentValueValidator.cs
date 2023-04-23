@@ -5,6 +5,8 @@ namespace ToDo.App.Validators;
 
 public sealed class FluentValueValidator<T> : AbstractValidator<T>
 {
+    public Func<T, IEnumerable<string>> Validation => ValidateValue;
+    
     public FluentValueValidator(Action<IRuleBuilderInitial<T, T>> rule)
     {
         rule(RuleFor(x => x));
@@ -17,6 +19,4 @@ public sealed class FluentValueValidator<T> : AbstractValidator<T>
             ? Array.Empty<string>()
             : result.Errors.Select(e => e.ErrorMessage);
     }
-    
-    public Func<T, IEnumerable<string>> Validation => ValidateValue;
 }

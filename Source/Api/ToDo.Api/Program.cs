@@ -6,27 +6,12 @@ Log.Logger = ConfigurationBuilderExtensions
     .BuildConfiguration(args)
     .CreateLogger();
 
-try
-{
-    Log.Information("Starting up...");
-    
-    WebApplication.CreateBuilder(args)
-        .AddData()
-        .AddApi()
-        .Build()
-        .UseApi()
-        .Run();
-    
-    Log.Information("Shutting down...");
-}
-catch (Exception exception)
-{
-    Log.Fatal(exception, "Api host terminated unexpectedly");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+WebApplication.CreateBuilder(args)
+    .AddData()
+    .AddApi()
+    .Build()
+    .UseApi()
+    .Run();
 
 
 

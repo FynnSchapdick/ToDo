@@ -15,6 +15,6 @@ public static class ApiResponseExtensions
     private static bool IsValid(this IApiResponse response)
         => response is {IsSuccessStatusCode: true};
 
-    public static IEnumerable<TModel> Transform<TModel>(this ApiResponse<GetPaginatedToDoItemsResponse> response, Func<ToDoItemDto, TModel> transformer) where TModel : class
+    public static IEnumerable<TModel> Transform<TModel>(this ApiResponse<GetToDoItemsResponse> response, Func<ToDoItemDto, TModel> transformer) where TModel : class
         => response.ValidateResponse().Data.Select(transformer);
 }

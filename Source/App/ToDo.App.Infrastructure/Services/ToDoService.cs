@@ -15,12 +15,12 @@ public sealed class ToDoService : IToDoService
         _client = client;
     }
 
-    public async Task<IEnumerable<ToDoItem>> GetToDoItems(int page, int pageSize)
-        => (await _client.GetPaginatedToDoItems(page, pageSize)).Transform(x => new ToDoItem(x.ToDoItemId, x.Text, x.Status));
+    public async Task<IEnumerable<ToDoItem>> GetToDoItems()
+        => (await _client.GetToDoItems()).Transform(x => new ToDoItem(x.ToDoItemId, x.Text, x.Status));
 
     public async Task<Guid> CreateToDoItem(string text)
     {
-        ApiResponse<Guid> response = await _client.PostToDoItem(new(text));
+        ApiResponse<Guid> response = await _client.CreateToDoItem(new(text));
         return response.ValidateResponseStruct();
     }
 
