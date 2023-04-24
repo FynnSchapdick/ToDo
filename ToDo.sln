@@ -45,7 +45,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{FE707869-95A3-4011-AEC7-C5500F76D4D5}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		.env = .env
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrator", "Migrator", "{ACB2307E-5BA8-4618-8AB6-B0A958093A52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrator.App", "Source\Migrator\Migrator.App\Migrator.App.csproj", "{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +106,10 @@ Global
 		{93586D8D-FEF4-4F8D-8C5E-AC48AEFCDB4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93586D8D-FEF4-4F8D-8C5E-AC48AEFCDB4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93586D8D-FEF4-4F8D-8C5E-AC48AEFCDB4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +130,8 @@ Global
 		{30ECE22B-F43E-4FA3-88DB-9E6715811A3B} = {15552A73-A262-47D2-80F6-814F060892EF}
 		{016CC0A8-692B-45AC-AB28-0B8D8553A1E5} = {15552A73-A262-47D2-80F6-814F060892EF}
 		{93586D8D-FEF4-4F8D-8C5E-AC48AEFCDB4E} = {15552A73-A262-47D2-80F6-814F060892EF}
+		{ACB2307E-5BA8-4618-8AB6-B0A958093A52} = {0B62B23D-FDF7-4B0B-A627-936D3C372429}
+		{B3309F21-4B26-42C0-ACE0-8D8EE3DA17E9} = {ACB2307E-5BA8-4618-8AB6-B0A958093A52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD1B2BCE-DBB6-4B8D-B618-0BE6E0535278}

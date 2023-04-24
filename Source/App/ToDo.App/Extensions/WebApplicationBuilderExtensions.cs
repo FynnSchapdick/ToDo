@@ -1,4 +1,5 @@
 ﻿using MudBlazor.Services;
+using ToDo.App.Infrastructure.Configuration;
 
 namespace ToDo.App.Extensions;
 
@@ -9,7 +10,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
         builder.Services.AddMudServices();
-        //builder.WebHost.UseUrls("http://localhost:5120/");
+        builder.Services.ConfigureOptions<ApiOptionsConfiguration>();
         return builder;
     }
 }

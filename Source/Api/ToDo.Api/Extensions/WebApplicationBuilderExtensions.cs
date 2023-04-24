@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Serilog.Exceptions;
 using ToDo.Api.Contracts.Requests;
 using ToDo.Api.Middleware;
 using ToDo.Api.Validators;
@@ -15,6 +16,9 @@ public static class WebApplicationBuilderExtensions
         {
             configuration
                 .ReadFrom.Configuration(context.Configuration)
+                .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
+                .Enrich.WithMachineName()
                 .WriteTo.Console();
         });
         builder.Services.AddTransient<ErrorDetailsMiddleware>();
