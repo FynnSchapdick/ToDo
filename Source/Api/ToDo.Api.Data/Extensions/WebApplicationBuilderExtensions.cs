@@ -13,7 +13,7 @@ public static class WebApplicationBuilderExtensions
     {
         NpgsqlConnectionStringBuilder connectionStringBuilder = new NpgsqlConnectionStringBuilder
         {
-            Host = "postgres",
+            Host = "postgresdb",
             Port = GetRequiredValue<int>(builder, "POSTGRES_PORT"),
             Database = GetRequiredValue<string>(builder, "POSTGRES_DB"),
             Username = GetRequiredValue<string>(builder, "POSTGRES_USER"),
